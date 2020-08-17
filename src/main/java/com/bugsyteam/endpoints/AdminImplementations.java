@@ -8,12 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 
-import com.anf.infoweb.files.FilesWork;
 import com.bugsyteam.utils.CompilationDataUtil;
+import com.bugsyteam.utils.FilesWork;
 
 import io.vertx.core.http.HttpHeaders;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 public class AdminImplementations {
@@ -25,7 +25,7 @@ public class AdminImplementations {
 	// -------------- endpoint: GET /admin/version ----------------//
 	public static long version(RoutingContext routingContext) {
 		LOGGER.info("Request to GET /admin/version");
-		JSONObject response = new JSONObject();
+		JsonObject response = new JsonObject();
 		try {
 			response.put("Api Version", CompilationDataUtil.getVersion());
 
@@ -40,7 +40,7 @@ public class AdminImplementations {
 		}
 
 		routingContext.response().setStatusCode(200).putHeader("content-type", "application/json; charset=utf-8")
-				.end(response.toJSONString());
+				.end(response.encodePrettily());
 
 		return Thread.currentThread().getId();
 		// return 1;

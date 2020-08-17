@@ -44,10 +44,7 @@ public class MainVerticle extends AbstractVerticle {
 			String apiPassword = config.getString("api.password");
 			boolean enableCORS = config.getBoolean("cors.enable");
 			boolean enableAdmin = config.getBoolean("endpoint.admin.enable");
-			boolean enableBackgroundTask = config.getBoolean("endpoint.backgroundtask.enable");
 			boolean enableSwagger = config.getBoolean("endpoint.swagger.enable");
-			boolean enablePeriodicExecutions = config.getBoolean("periodic.executions.enable");
-			boolean enableDaily = config.getBoolean("periodic.daily.enable");
 
 			Router router = Router.router(vertx);
 
@@ -108,8 +105,6 @@ public class MainVerticle extends AbstractVerticle {
 			router.post("/with-json-multipart-files").handler(selector::postWithMultipartFiles);
 
 			// put (Buscar como subir un archivo por put con vertx no por multipart)
-
-			// delete
 
 			// Arreglar y revisar respuestas
 

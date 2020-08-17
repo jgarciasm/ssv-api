@@ -1,11 +1,11 @@
 package com.bugsyteam.endpoints;
 
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 
 import com.bugsyteam.utils.MockMethods;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 public class BlockingImplementations {
@@ -34,12 +34,12 @@ public class BlockingImplementations {
 
 			} else {
 
-				JSONObject response = new JSONObject();
+				JsonObject response = new JsonObject();
 				String responseMessage = "ERROR 500 - Ocurrio un error desconocido en la consulta a la base datos. Exception: "
 						+ res.cause().toString();
 				response.put("response", responseMessage);
 				routingContext.response().setStatusCode(500)
-						.putHeader("content-type", "application/json; charset=utf-8").end(response.toJSONString());
+						.putHeader("content-type", "application/json; charset=utf-8").end(response.encodePrettily());
 				LOGGER.error("Response status code 500. Cause: " + res.cause().toString());
 
 			}
@@ -70,12 +70,12 @@ public class BlockingImplementations {
 
 			} else {
 
-				JSONObject response = new JSONObject();
+				JsonObject response = new JsonObject();
 				String responseMessage = "ERROR 500 - Ocurrio un error desconocido en la consulta a la base datos. Exception: "
 						+ res.cause().toString();
 				response.put("response", responseMessage);
 				routingContext.response().setStatusCode(500)
-						.putHeader("content-type", "application/json; charset=utf-8").end(response.toJSONString());
+						.putHeader("content-type", "application/json; charset=utf-8").end(response.encodePrettily());
 				LOGGER.error("Response status code 500. Cause: " + res.cause().toString());
 
 			}

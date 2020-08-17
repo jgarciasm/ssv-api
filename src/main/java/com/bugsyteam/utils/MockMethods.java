@@ -1,14 +1,14 @@
 package com.bugsyteam.utils;
 
-import org.json.simple.JSONObject;
+import io.vertx.core.json.JsonObject;
 
 public class MockMethods {
 
 	public static String blockingMethod() throws InterruptedException {
 		Thread.sleep(TimeWork.getMillisFromSeconds(10));
-		JSONObject response = new JSONObject();
+		JsonObject response = new JsonObject();
 		response.put("result", "OK");
-		return response.toJSONString();
+		return response.encodePrettily();
 	}
 
 	public static String nonBlockingMethod() {

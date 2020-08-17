@@ -1,10 +1,10 @@
 package com.bugsyteam.endpoints;
 
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 
 import com.bugsyteam.utils.MockMethods;
 
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 public class NonBlockingImplementations {
@@ -14,7 +14,7 @@ public class NonBlockingImplementations {
 	// -------------- endpoint: GET /nonblocking ----------------//
 	public static long getNonBlocking(RoutingContext routingContext) {
 		LOGGER.info("Request to GET /nonlocking");
-		JSONObject response = new JSONObject();
+		JsonObject response = new JsonObject();
 		try {
 
 			response.put("Response", MockMethods.nonBlockingMethod());
@@ -28,7 +28,7 @@ public class NonBlockingImplementations {
 		}
 
 		routingContext.response().setStatusCode(200).putHeader("content-type", "application/json; charset=utf-8")
-				.end(response.toJSONString());
+				.end(response.encodePrettily());
 
 		return Thread.currentThread().getId();
 	}
