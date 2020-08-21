@@ -96,24 +96,15 @@ public class MainVerticle extends AbstractVerticle {
 
 			router.get("/blocking-async").handler(selector::getBlockingWithAsyncResponse);
 
-			router.get("/nonlocking").handler(selector::getNonBlocking);
+			router.get("/nonblocking").handler(selector::getNonBlocking);
 
 			router.post("/with-query-params").handler(selector::postWithQueryParams);
 
-			router.post("/with-json-body-params").handler(selector::postWithJsonBodyParams);
+			router.put("/with-json-body-params").handler(selector::postWithJsonBodyParams);
 
 			router.post("/with-json-multipart-files").handler(selector::postWithMultipartFiles);
 
-			// put (Buscar como subir un archivo por put con vertx no por multipart)
-
-			// Arreglar y revisar respuestas
-
-			// Eliminar referencia a JSONObject y usar la implementacion de Vertx usada en
-			// ParamsImplementations
-
 			// Cambiar a la implementacion de logs de Glenda
-
-			// Borrar todos los logs anteriores a...
 
 			PeriodicTaskImplementations.programPeriodicBlockingTask(vertx, 60);
 

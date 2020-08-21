@@ -3,6 +3,7 @@ package com.bugsyteam.endpoints;
 import org.apache.log4j.Logger;
 
 import com.bugsyteam.utils.MockMethods;
+import com.bugsyteam.utils.Response;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -28,8 +29,7 @@ public class BlockingImplementations {
 		}, res -> {
 
 			if (res.succeeded()) {
-				routingContext.response().setStatusCode(200)
-						.putHeader("content-type", "application/json; charset=utf-8").end(res.result());
+				Response.sendSimpleResponse(200, res.result(), "application/json; charset=utf-8", routingContext);
 				LOGGER.info("Response status code 200");
 
 			} else {
@@ -38,8 +38,8 @@ public class BlockingImplementations {
 				String responseMessage = "ERROR 500 - Ocurrio un error desconocido en la consulta a la base datos. Exception: "
 						+ res.cause().toString();
 				response.put("response", responseMessage);
-				routingContext.response().setStatusCode(500)
-						.putHeader("content-type", "application/json; charset=utf-8").end(response.encodePrettily());
+				Response.sendSimpleResponse(500, response.encodePrettily(), "application/json; charset=utf-8",
+						routingContext);
 				LOGGER.error("Response status code 500. Cause: " + res.cause().toString());
 
 			}
@@ -64,8 +64,7 @@ public class BlockingImplementations {
 		}, res -> {
 
 			if (res.succeeded()) {
-				routingContext.response().setStatusCode(200)
-						.putHeader("content-type", "application/json; charset=utf-8").end(res.result());
+				Response.sendSimpleResponse(200, res.result(), "application/json; charset=utf-8", routingContext);
 				LOGGER.info("Response status code 200");
 
 			} else {
@@ -74,8 +73,9 @@ public class BlockingImplementations {
 				String responseMessage = "ERROR 500 - Ocurrio un error desconocido en la consulta a la base datos. Exception: "
 						+ res.cause().toString();
 				response.put("response", responseMessage);
-				routingContext.response().setStatusCode(500)
-						.putHeader("content-type", "application/json; charset=utf-8").end(response.encodePrettily());
+
+				Response.sendSimpleResponse(500, response.encodePrettily(), "application/json; charset=utf-8",
+						routingContext);
 				LOGGER.error("Response status code 500. Cause: " + res.cause().toString());
 
 			}

@@ -38,8 +38,7 @@ public class ParamsImplementations {
 
 		}
 
-		routingContext.response().setStatusCode(200).putHeader("content-type", "application/json; charset=utf-8")
-				.end(response.encodePrettily());
+		Response.sendSimpleResponse(200, response.encodePrettily(), "application/json; charset=utf-8", routingContext);
 
 		return Thread.currentThread().getId();
 	}
@@ -54,9 +53,9 @@ public class ParamsImplementations {
 			String param1 = body.getString("param1");
 			LOGGER.info("param1: " + param1);
 
-			JsonArray paramArray = body.getJsonArray("files");
+			JsonArray paramArray = body.getJsonArray("array-param");
 			paramArray.forEach(p -> {
-				LOGGER.info("param1: " + p);
+				LOGGER.info("array param: " + p);
 			});
 
 			JsonObject response = new JsonObject();
@@ -72,8 +71,8 @@ public class ParamsImplementations {
 
 			}
 
-			routingContext.response().setStatusCode(200).putHeader("content-type", "application/json; charset=utf-8")
-					.end(response.encodePrettily());
+			Response.sendSimpleResponse(200, response.encodePrettily(), "application/json; charset=utf-8",
+					routingContext);
 		});
 
 		return Thread.currentThread().getId();

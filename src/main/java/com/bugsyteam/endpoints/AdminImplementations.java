@@ -11,8 +11,8 @@ import org.apache.log4j.Logger;
 
 import com.bugsyteam.utils.CompilationDataUtil;
 import com.bugsyteam.utils.FilesWork;
+import com.bugsyteam.utils.Response;
 
-import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
@@ -39,11 +39,9 @@ public class AdminImplementations {
 			LOGGER.error("Error en la llamada a /destinatarios/test", e);
 		}
 
-		routingContext.response().setStatusCode(200).putHeader("content-type", "application/json; charset=utf-8")
-				.end(response.encodePrettily());
+		Response.sendSimpleResponse(200, response.encodePrettily(), "application/json; charset=utf-8", routingContext);
 
 		return Thread.currentThread().getId();
-		// return 1;
 	}
 
 	// ------------- endpoint: GET /admin/logs
@@ -69,16 +67,12 @@ public class AdminImplementations {
 		Path p = Paths.get(fileName);
 
 		if (Files.exists(p)) {
-			rc.response().putHeader(HttpHeaders.CONTENT_TYPE, "text/plain; charset=utf-8")
-					.putHeader("Content-Disposition", "attachment; filename=\"logs.log\"")
-					.putHeader(HttpHeaders.TRANSFER_ENCODING, "chunked").sendFile(fileName);
+			Response.sendFileResponse(200, fileName, "logs.log", "text/plain; charset=utf-8", rc);
 		} else {
-			rc.response().setStatusCode(400).putHeader("content-type", "text/plain; charset=utf-8")
-					.end("No existe " + fileName);
+			Response.sendSimpleResponse(400, "No existe " + fileName, "text/plain; charset=utf-8", rc);
 		}
 
 		return Thread.currentThread().getId();
-		// return 1;
 
 	}
 
@@ -95,17 +89,14 @@ public class AdminImplementations {
 		if (Files.exists(p)) {
 			FilesWork.emptyLogRoot(filePath);
 			LOGGER.info("Se borraron correctamente todos los logs antiguos.");
-			rc.response().setStatusCode(200).putHeader("content-type", "text/plain; charset=utf-8")
-					.end("Se borraron correctamente todos los logs antiguos.");
+			Response.sendSimpleResponse(200, "Se borraron correctamente todos los logs antiguos.",
+					"text/plain; charset=utf-8", rc);
 		} else {
 			LOGGER.info("No existe el directorio de logs especificado.");
-			rc.response().setStatusCode(200).putHeader("content-type", "text/plain; charset=utf-8")
-					.end("No existe el directorio " + filePath);
+			Response.sendSimpleResponse(400, "No existe el directorio " + filePath, "text/plain; charset=utf-8", rc);
 		}
 
 		return Thread.currentThread().getId();
-		// return 1;
-
 	}
 
 }
