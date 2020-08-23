@@ -43,14 +43,12 @@ public class MainVerticleTest {
 				async.complete();
 			});
 		}).end();
-		System.out.println("test200 Done");
+		System.out.println("testA Done");
 	}
 
 	@Test
-	public void A_test404(TestContext tc) {
-		System.out.println("A Test 1");
+	public void B_test404(TestContext tc) {
 		Async async = tc.async();
-		System.out.println("A Test 2");
 		vertx.createHttpClient().get(options.setURI("/admin/vers"), response -> {
 			tc.assertEquals(response.statusCode(), 404);
 			response.bodyHandler(body -> {
@@ -58,11 +56,11 @@ public class MainVerticleTest {
 				async.complete();
 			});
 		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
-		System.out.println("A Test Done");
+		System.out.println("B Test Done");
 	}
 
 	@Test
-	public void B_test401(TestContext tc) {
+	public void C_test401(TestContext tc) {
 		Async async = tc.async();
 		vertx.createHttpClient().get(options.setURI("/admin/version"), response -> {
 			tc.assertEquals(response.statusCode(), 401);
@@ -71,11 +69,11 @@ public class MainVerticleTest {
 				async.complete();
 			});
 		}).end();
-		System.out.println("B Test Done");
+		System.out.println("C Test Done");
 	}
 
 	@Test
-	public void C_testVersion(TestContext tc) {
+	public void D_testVersion(TestContext tc) {
 		Async async = tc.async();
 		vertx.createHttpClient().get(options.setURI("/admin/version"), response -> {
 			tc.assertEquals(response.statusCode(), 200);
@@ -84,11 +82,11 @@ public class MainVerticleTest {
 				async.complete();
 			});
 		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
-		System.out.println("C Test Done");
+		System.out.println("D Test Done");
 	}
 
 	@Test
-	public void G_testGetLogs(TestContext tc) {
+	public void E_testGetLogs(TestContext tc) {
 		Async async = tc.async();
 		vertx.createHttpClient().get(options.setURI("/admin/logs?backward_days=0"), response -> {
 			tc.assertEquals(response.statusCode(), 200);
@@ -97,13 +95,40 @@ public class MainVerticleTest {
 				async.complete();
 			});
 		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
+		System.out.println("E Test Done");
+	}
+
+	@Test
+	public void F_testCleanLogs(TestContext tc) {
+		Async async = tc.async();
+		vertx.createHttpClient().delete(options.setURI("/admin/logs"), response -> {
+			tc.assertEquals(response.statusCode(), 200);
+			response.bodyHandler(body -> {
+				tc.assertTrue(body.length() > 0);
+				async.complete();
+			});
+		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
+		System.out.println("F Test Done");
+	}
+
+	@Test
+	public void G_testGetLogsUnknown(TestContext tc) {
+		Async async = tc.async();
+		vertx.createHttpClient().get(options.setURI("/admin/logs?backward_days=1"), response -> {
+			tc.assertEquals(response.statusCode(), 400);
+			response.bodyHandler(body -> {
+				tc.assertTrue(body.length() > 0);
+				tc.assertTrue(body.toString().contains("No existe"));
+				async.complete();
+			});
+		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
 		System.out.println("G Test Done");
 	}
 
 	@Test
-	public void H_testCleanLogs(TestContext tc) {
+	public void H_testGetBlocking(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().delete(options.setURI("/admin/logs"), response -> {
+		vertx.createHttpClient().get(options.setURI("/blocking"), response -> {
 			tc.assertEquals(response.statusCode(), 200);
 			response.bodyHandler(body -> {
 				tc.assertTrue(body.length() > 0);
@@ -114,13 +139,12 @@ public class MainVerticleTest {
 	}
 
 	@Test
-	public void I_testGetLogsUnknown(TestContext tc) {
+	public void I_testGetBlockingAsync(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().get(options.setURI("/admin/logs?backward_days=1"), response -> {
-			tc.assertEquals(response.statusCode(), 400);
+		vertx.createHttpClient().get(options.setURI("/blocking-async"), response -> {
+			tc.assertEquals(response.statusCode(), 200);
 			response.bodyHandler(body -> {
 				tc.assertTrue(body.length() > 0);
-				tc.assertTrue(body.toString().contains("No existe"));
 				async.complete();
 			});
 		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
@@ -128,10 +152,10 @@ public class MainVerticleTest {
 	}
 
 	@Test
-	public void J_testGetBlocking(TestContext tc) {
+	public void J_testGetNonBlocking(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().get(options.setURI("/blocking"), response -> {
-			tc.assertEquals(response.statusCode(), 200);
+		vertx.createHttpClient().get(options.setURI("/nonlocking"), response -> {
+			tc.assertEquals(response.statusCode(), 404);
 			response.bodyHandler(body -> {
 				tc.assertTrue(body.length() > 0);
 				async.complete();
@@ -141,9 +165,9 @@ public class MainVerticleTest {
 	}
 
 	@Test
-	public void K_testGetBlockingAsync(TestContext tc) {
+	public void K_testPostWithQueryParams(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().get(options.setURI("/blocking-async"), response -> {
+		vertx.createHttpClient().post(options.setURI("/with-query-params?param1=param1"), response -> {
 			tc.assertEquals(response.statusCode(), 200);
 			response.bodyHandler(body -> {
 				tc.assertTrue(body.length() > 0);
@@ -154,29 +178,15 @@ public class MainVerticleTest {
 	}
 
 	@Test
-	public void L_testGetNonBlocking(TestContext tc) {
+	public void L_testSwagger(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().get(options.setURI("/nonlocking"), response -> {
-			tc.assertEquals(response.statusCode(), 404);
+		vertx.createHttpClient().get(options.setURI("/doc/"), response -> {
+			tc.assertEquals(response.statusCode(), 200);
 			response.bodyHandler(body -> {
-				tc.assertTrue(body.length() > 0);
 				async.complete();
 			});
 		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
 		System.out.println("L Test Done");
-	}
-
-	@Test
-	public void N_testPostWithQueryParams(TestContext tc) {
-		Async async = tc.async();
-		vertx.createHttpClient().post(options.setURI("/with-query-params?param1=param1"), response -> {
-			tc.assertEquals(response.statusCode(), 200);
-			response.bodyHandler(body -> {
-				tc.assertTrue(body.length() > 0);
-				async.complete();
-			});
-		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
-		System.out.println("N Test Done");
 	}
 
 //	@Test
