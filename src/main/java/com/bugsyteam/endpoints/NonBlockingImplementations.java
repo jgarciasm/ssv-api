@@ -16,8 +16,6 @@ public class NonBlockingImplementations {
 
 	private static final Logger LOGGER = Logger.getLogger(NonBlockingImplementations.class);
 
-	// -------------- endpoint: GET /nonblocking ----------------//
-
 	/**
 	 * Handles GET /nonblocking endpoint calls. This is recomended to handle very
 	 * short operations that do not blocks the event loop.

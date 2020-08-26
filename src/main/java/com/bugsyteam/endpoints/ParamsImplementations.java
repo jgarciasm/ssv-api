@@ -15,27 +15,32 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 
+/**
+ * The Class ParamsImplementations handles all the endpoint calls with
+ * parameters.
+ */
 public class ParamsImplementations {
 
 	private static final Logger LOGGER = Logger.getLogger(ParamsImplementations.class);
 
-	// -------------- endpoint: POST /with-query-params ----------------//
+	/**
+	 * Handles POST /with-query-params endpoint calls. This is intended to
+	 * demonstrate how to obtain query parameters from POST request.
+	 *
+	 * @param routingContext the routing context of the HTTP call.
+	 * @return the id of the thread in execution.
+	 */
 	public static long postWithQueryParams(RoutingContext routingContext) {
-		LOGGER.info("Request to POST /with-query-params");
 		String param1 = routingContext.request().getParam("param1");
 		LOGGER.info("param1: " + param1);
 
 		JsonObject response = new JsonObject();
 		try {
-
 			response.put("Response", MockMethods.nonBlockingMethod(param1));
-
 		} catch (Exception e) {
-
 			response.put("Response", "ERROR");
 
 			LOGGER.error("Error en la llamada a /with-query-params", e);
-
 		}
 
 		Response.sendSimpleResponse(200, response.encodePrettily(), "application/json; charset=utf-8", routingContext);
@@ -44,8 +49,16 @@ public class ParamsImplementations {
 	}
 
 	// -------------- endpoint: POST /with-json-body-params ----------------//
+
+	/**
+	 * Handles POST /with-json-body-params endpoint calls. This is intended to
+	 * demonstrate how to obtain parameters from a json received in the body of POST
+	 * request.
+	 *
+	 * @param routingContext the routing context of the HTTP call.
+	 * @return the id of the thread in execution.
+	 */
 	public static long postWithJsonBodyParams(RoutingContext routingContext) {
-		LOGGER.info("Request to POST /with-json-body-params");
 
 		routingContext.request().bodyHandler(b -> {
 
@@ -79,27 +92,33 @@ public class ParamsImplementations {
 	}
 
 	// -------------- endpoint: POST /with-json-multipart-files ----------------//
+
+	/**
+	 * Handles POST /with-json-multipart-files endpoint calls. This is intended to
+	 * demonstrate how to obtain files from a multipart POST request.
+	 *
+	 * @param routingContext the routing context of the HTTP call.
+	 * @return the id of the thread in execution.
+	 */
 	public static long postWithMultipartFiles(RoutingContext rc) {
-		LOGGER.info("Request to POST /with-json-multipart-files");
 
 		if (rc.fileUploads().size() < 1) {
-			LOGGER.error("Bad Request: Ningún fichero recibido.");
-			Response.sendSimpleResponse(400, "Bad Request: Ningún fichero recibido.", "text/plain", rc);
+			LOGGER.error("Bad Request: Any file received.");
+			Response.sendSimpleResponse(400, "Bad Request: Any file received.", "text/plain", rc);
 		}
 
-		// Depende del numero de ficheros que se esperan recibir, en este caso solo 1
+		// It depends on the number of expected files. Only 1 in this case.
 		if (rc.fileUploads().size() > 1) {
-			LOGGER.error("Bad Request: Ningún fichero recibido.");
-			Response.sendSimpleResponse(400, "Bad Request: El número de ficheros recibidos no es correcto.",
-					"text/plain", rc);
+			LOGGER.error("Bad Request: The amount of recieved files is wrong.");
+			Response.sendSimpleResponse(400, "Bad Request: The amount of recieved files is wrong.", "text/plain", rc);
 		}
 
 		FileUpload file = rc.fileUploads().iterator().next();
 
-		// Se espera recibir un json
+		// Expected json file
 		if (file != null && file.fileName().toLowerCase().endsWith(".json")) {
 
-			// revisar todo esto para eliminar pasos innecesarios
+			// TODO: revisar todo esto para eliminar pasos innecesarios
 			File uploadFile = new File(file.uploadedFileName());
 
 			if (uploadFile.exists()) {
@@ -120,24 +139,20 @@ public class ParamsImplementations {
 					MockMethods.nonBlockingMethod(param1);
 
 				} catch (Exception e1) {
-					LOGGER.error("Internal Server Error: Error desconocido en el manejo del fichero recibido.");
+					LOGGER.error("Internal Server Error: Unknown error working with the received file.");
 					Response.sendSimpleResponse(500,
-							"Internal Server Error: Error desconocido en el manejo del fichero recibido.", "text/plain",
-							rc);
+							"Internal Server Error: Unknown error working with the received file.", "text/plain", rc);
 				}
 
 				uploadFile.delete();
 			} else {
-				LOGGER.error("Bad Request: Error desconocido con el fichero recibido.");
-				Response.sendSimpleResponse(400, "Bad Request: Error desconocido con el fichero recibido.",
+				LOGGER.error("Bad Request: Unknown error working with the received file.");
+				Response.sendSimpleResponse(400, "Bad Request: Unknown error working with the received file.",
 						"text/plain", rc);
 			}
-		} else
-
-		{
-			LOGGER.error("Bad Request: El fichero recibido tiene un formato no soportado.");
-			Response.sendSimpleResponse(400, "Bad Request: El fichero recibido tiene un formato no soportado.",
-					"text/plain", rc);
+		} else {
+			LOGGER.error("Bad Request: Invalid format of the received file.");
+			Response.sendSimpleResponse(400, "Bad Request: Invalid format of the received file.", "text/plain", rc);
 		}
 
 		return Thread.currentThread().getId();
