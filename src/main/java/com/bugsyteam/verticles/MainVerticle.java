@@ -24,12 +24,15 @@ import io.vertx.ext.web.sstore.LocalSessionStore;
 
 public class MainVerticle extends AbstractVerticle {
 
+	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(MainVerticle.class);
 
 	@Override
 	public void start(Future fut) {
 
-		// Get config parameters
+		/**
+		 * Obtains the configuration parameters stored in conf/config.json
+		 */
 		ConfigStoreOptions fileStore = new ConfigStoreOptions().setType("file")
 				.setConfig(new JsonObject().put("path", "conf/config.json"));
 		ConfigRetrieverOptions options = new ConfigRetrieverOptions().addStore(fileStore);
@@ -50,37 +53,45 @@ public class MainVerticle extends AbstractVerticle {
 
 			LOGGER.info("Starting ssv-api on port " + apiPort);
 
-			AuthProvider authProvider = new BasicHttpAuthentication(apiUsername, apiPassword);
-
-			// Configurations to accept CORS
+			/**
+			 * Enables CORS support in the server if is specified in congig.json.
+			 */
 			if (enableCORS) {
 				HttpServerUtils.initCors(router);
 			}
 
-			//
+			/**
+			 * Defines logs to every HTTP call to the API.
+			 */
 			HttpServerUtils.initApiLogging(router);
-			// router.route().failureHandler(this::exceptionHandler);
-			//
+//			router.route().failureHandler(this::exceptionHandler);
 
-			// Set Authentication
+			/**
+			 * Set authentication method (at this version only is available Basic HTTP)
+			 */
+			AuthProvider authProvider = new BasicHttpAuthentication(apiUsername, apiPassword);
+
 			router.route()
 					.handler(SessionHandler.create(LocalSessionStore.create(vertx)).setAuthProvider(authProvider));
 
 			AuthHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
 
-			// Endpoint without security to test service availability
-			// Some cloud providers requires this implementations
+			/**
+			 * Endpoint without security to test service availability. Some cloud providers
+			 * requires this implementation.
+			 */
 			router.get("/test").handler(routingContext -> {
 				routingContext.response().setStatusCode(200).end();
 			});
 
+			/**
+			 * Apply authentication configuration to the rest of endpoints.
+			 */
 			router.route("/*").handler(routingContext -> {
 				basicAuthHandler.handle(routingContext);
 			});
 
 			RequestHandlerSelector selector = new RequestHandlerSelector(vertx, authProvider, config);
-
-			// Endpoints:
 
 			if (enableAdmin) {
 
@@ -104,8 +115,6 @@ public class MainVerticle extends AbstractVerticle {
 
 			router.post("/with-json-multipart-files").handler(selector::postWithMultipartFiles);
 
-			// Cambiar a la implementacion de logs de Glenda
-
 			PeriodicTaskImplementations.programPeriodicBlockingTask(vertx, 60);
 
 			PeriodicTaskImplementations.programPeriodicNonBlockingTask(vertx, 60);
@@ -121,19 +130,24 @@ public class MainVerticle extends AbstractVerticle {
 						.setWebRoot("webroot/node_modules/swagger-ui-dist"));
 			}
 
-			// To accept larger HTTP Headers
+			/**
+			 * Config the server to accept large HTTP headers.
+			 */
 			HttpServerOptions httpServerOptions = new HttpServerOptions();
 			httpServerOptions.setMaxHeaderSize(1024 * 16);
 
+			/**
+			 * Starts the server at the specified port (config.json) or 8080 by defect.
+			 */
 			vertx.createHttpServer(httpServerOptions).requestHandler(router::accept).exceptionHandler(ex -> {
 				LOGGER.error("Http server exception handler.", ex);
 			}).listen(config.getInteger("http.port", 8080), result -> {
 				if (result.succeeded()) {
-					LOGGER.info("Starting API_Destinatarios on port " + config.getInteger("http.port", 8080));
+					LOGGER.info("Starting ssv-api on port " + config.getInteger("http.port", 8080));
 					fut.complete();
 				} else {
 					fut.fail(result.cause());
-					LOGGER.error("ERROR on starting API_Destinatarios", result.cause());
+					LOGGER.error("ERROR on starting ssv-api", result.cause());
 				}
 			});
 
@@ -143,9 +157,8 @@ public class MainVerticle extends AbstractVerticle {
 
 	@Override
 	public void stop(Future stopFuture) throws Exception {
-		// must call super.stop() or call stopFuture.complete()
 		super.stop(stopFuture);
-		LOGGER.info("API_Destinatarios stopped!");
+		LOGGER.info("ssv-api stopped!");
 	}
 
 }

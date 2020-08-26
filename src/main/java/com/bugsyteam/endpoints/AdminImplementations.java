@@ -16,15 +16,20 @@ import com.bugsyteam.utils.Response;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
+/**
+ * The Class AdminImplementations handles all the administration endpoint calls.
+ */
 public class AdminImplementations {
 
 	private static final Logger LOGGER = Logger.getLogger(AdminImplementations.class);
 
-	// TODO: Arreglar las respuestas
-
-	// -------------- endpoint: GET /admin/version ----------------//
+	/**
+	 * Handles GET /admin/version endpoint calls.
+	 *
+	 * @param routingContext the routing context of the HTTP call.
+	 * @return the id of the thread in execution.
+	 */
 	public static long version(RoutingContext routingContext) {
-		LOGGER.info("Request to GET /admin/version");
 		JsonObject response = new JsonObject();
 		try {
 			response.put("Api Version", CompilationDataUtil.getVersion());
@@ -44,7 +49,12 @@ public class AdminImplementations {
 		return Thread.currentThread().getId();
 	}
 
-	// ------------- endpoint: GET /admin/logs
+	/**
+	 * Handles GET /admin/logs endpoint calls.
+	 *
+	 * @param routingContext the routing context of the HTTP call.
+	 * @return the id of the thread in execution.
+	 */
 	public static long getLogs(RoutingContext rc) {
 
 		String userDir = System.getProperty("user.dir");
@@ -76,10 +86,14 @@ public class AdminImplementations {
 
 	}
 
-	// ------------- endpoint: DELETE /admin/logs
+	/**
+	 * Handles DELETE /admin/logs endpoint calls.
+	 *
+	 * @param routingContext the routing context of the HTTP call.
+	 * @return the id of the thread in execution.
+	 */
 	public static long cleanLogs(RoutingContext rc) {
 
-		LOGGER.info("Ejecutando llamada a endpoint /clean_logs.");
 		String userDir = System.getProperty("user.dir");
 		String separator = System.getProperty("file.separator");
 		String filePath = userDir + separator + "logs";
@@ -88,11 +102,11 @@ public class AdminImplementations {
 
 		if (Files.exists(p)) {
 			FilesWork.emptyLogRoot(filePath);
-			LOGGER.info("Se borraron correctamente todos los logs antiguos.");
+			LOGGER.info("All ancient logs will be removed.");
 			Response.sendSimpleResponse(200, "Se borraron correctamente todos los logs antiguos.",
 					"text/plain; charset=utf-8", rc);
 		} else {
-			LOGGER.info("No existe el directorio de logs especificado.");
+			LOGGER.info("Specified logs dir does not exist.");
 			Response.sendSimpleResponse(400, "No existe el directorio " + filePath, "text/plain; charset=utf-8", rc);
 		}
 
