@@ -110,7 +110,6 @@ public class ParamsImplementations {
 		}
 
 		FileUpload file = rc.fileUploads().iterator().next();
-		System.out.println("YY");
 
 		// Expected json file
 		if (file != null && file.fileName().toLowerCase().endsWith(".json")) {

@@ -18,6 +18,7 @@ import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.AuthHandler;
 import io.vertx.ext.web.handler.BasicAuthHandler;
+import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.sstore.LocalSessionStore;
@@ -113,6 +114,10 @@ public class MainVerticle extends AbstractVerticle {
 
 			router.put("/with-json-body-params").handler(selector::postWithJsonBodyParams);
 
+			String userDir = System.getProperty("user.dir");
+			String separator = System.getProperty("file.separator");
+			router.post("/with-json-multipart-files")
+					.handler(BodyHandler.create().setUploadsDirectory(userDir + separator + "uploads"));
 			router.post("/with-json-multipart-files").handler(selector::postWithMultipartFiles);
 
 			PeriodicTaskImplementations.programPeriodicBlockingTask(vertx, 60);
