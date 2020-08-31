@@ -8,10 +8,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.RequestOptions;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
+import io.vertx.ext.web.client.HttpResponse;
+import io.vertx.ext.web.client.WebClient;
+import io.vertx.ext.web.client.WebClientOptions;
+import io.vertx.ext.web.multipart.MultipartForm;
 
 @RunWith(VertxUnitRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -19,12 +26,17 @@ public class MainVerticleTest {
 
 	private Vertx vertx;
 
+	private WebClient client;
+
 	private final RequestOptions options = new RequestOptions().setPort(8080).setHost("localhost");
+
+	private final WebClientOptions wcoptions = new WebClientOptions().setDefaultPort(8080).setDefaultHost("localhost");
 
 	@Before
 	public void setUp(TestContext tc) {
 		vertx = Vertx.vertx();
 		vertx.deployVerticle(MainVerticle.class.getName(), tc.asyncAssertSuccess());
+		client = WebClient.create(vertx, wcoptions);
 		System.out.println("Setup Done");
 	}
 
@@ -189,65 +201,42 @@ public class MainVerticleTest {
 		System.out.println("L Test Done");
 	}
 
-//	@Test
-//	public void O_testPutWithJsonBodyParams(TestContext tc) {
-//		Async async = tc.async();
-//		vertx.createHttpClient().put(options.setURI("/with-json-body-params"), response -> {
-//			tc.assertEquals(response.statusCode(), 400);
-//			response.bodyHandler(body -> {
-//				tc.assertTrue(body.length() > 0);
-//				async.complete();
-//			});
-//		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
-//		System.out.println("O Test Done");
-//	}
+	@Test
+	public void M_testPutWithJsonBodyParams(TestContext tc) {
+		Async async = tc.async();
 
-//	@Test
-//	public void P_testPostWithJsonMultipartFiles(TestContext tc) {
-//		Async async = tc.async();
-//		vertx.createHttpClient().get(options.setURI("/with-json-multipart-files"), response -> {
-//			tc.assertEquals(response.statusCode(), 400);
-//			response.bodyHandler(body -> {
-//				tc.assertTrue(body.length() > 0);
-//				async.complete();
-//			});
-//		}).putHeader("Authorization", "Basic dXNlcjpwYXNzdw==").end();
-//		System.out.println("P Test Done");
-//	}
+		client.put("/with-json-body-params").putHeader("Authorization", "Basic dXNlcjpwYXNzdw==")
+				.sendJsonObject(new JsonObject().put("param1", "param1").put("array-param",
+						new JsonArray().add("array-p1").add("array-p1").add("array-p1")), ar -> {
+							if (ar.succeeded()) {
+								HttpResponse<Buffer> response = ar.result();
+								tc.assertEquals(response.statusCode(), 200);
+								tc.assertTrue(response.body().length() > 0);
+								async.complete();
+							}
+						});
 
-//	@Test
-//	public void T_testInsertDestAndEmailThenRemove() {
-//
-//		System.out.println("A0");
-//		// Insert a Destinatario.
-//		RestAssured.given().auth().basic("user", "passw").put(
-//				"/destinatarios?destNombreEmpresa=MERCADO%20JONAD%20MAX&destCIF=23DF&destCantidadEmpleados=12&destVolumenVentas=12000&destActivoBalance=12000&destDireccion=86%20y%2043&destProvincia=ALICANTE&destPoblacion=ALICANTE/ALACANT&destWeb=www.jonadmax.com&destTelefono=53584958&destCNAE=2640&destObligacion=true")
-//				.then().assertThat().statusCode(200);
-//		System.out.println("A1");
-//
-//		// Now get the inserted Destinatario
-//		final int destId = RestAssured.given().auth().basic("user", "passw")
-//				.get("/destinatario?name=MERCADO%20JONAD%20MAX").thenReturn().body().jsonPath().getInt("destId");
-//		System.out.println("A2");
-//
-//		// Insert a Email.
-//		RestAssured.given().auth().basic("user", "passw")
-//				.put("/emails?destEmail=pruebita@gmail.com&emailDepartamento=HAS&destId=" + destId).then().assertThat()
-//				.statusCode(200);
-//		System.out.println("A3");
-//
-//		// Delete Destinatario.
-//		RestAssured.given().auth().basic("user", "passw").delete("/destinatarios?destId=" + destId).then().assertThat()
-//				.statusCode(200);
-//		System.out.println("A4");
-//
-//		// Check that the resource is not available anymore
-//		RestAssured.given().auth().basic("user", "passw").get("/destinatario?name=MERCADO%20JONAD%20MAX").then()
-//				.assertThat().statusCode(404);
-//		System.out.println("A5");
-//		// Implement getEmail to test if do not exist
-//		// get("/destinatario?name=MERCADO%20JONAD%20MAX").then().assertThat().statusCode(400);
-//		System.out.println("T Test Done");
-//	}
+		System.out.println("M Test Done");
+	}
+
+	@Test
+	public void N_testPostWithJsonMultipartFiles(TestContext tc) {
+		Async async = tc.async();
+		MultipartForm form = MultipartForm.create().binaryFileUpload("jsonFile", "test.json", "resources/test.json",
+				"application/json");
+
+		client.post("/with-json-multipart-files").basicAuthentication("user", "passw").sendMultipartForm(form, ar -> {
+			if (ar.succeeded()) {
+				HttpResponse<Buffer> response = ar.result();
+				tc.assertEquals(response.statusCode(), 200);
+				tc.assertTrue(response.body().length() > 0);
+				async.complete();
+			} else {
+				System.out.println("Something went wrong ");
+				async.complete();
+			}
+		});
+		System.out.println("N Test Done");
+	}
 
 }

@@ -48,8 +48,6 @@ public class ParamsImplementations {
 		return Thread.currentThread().getId();
 	}
 
-	// -------------- endpoint: POST /with-json-body-params ----------------//
-
 	/**
 	 * Handles POST /with-json-body-params endpoint calls. This is intended to
 	 * demonstrate how to obtain parameters from a json received in the body of POST
@@ -91,8 +89,6 @@ public class ParamsImplementations {
 		return Thread.currentThread().getId();
 	}
 
-	// -------------- endpoint: POST /with-json-multipart-files ----------------//
-
 	/**
 	 * Handles POST /with-json-multipart-files endpoint calls. This is intended to
 	 * demonstrate how to obtain files from a multipart POST request.
@@ -114,6 +110,7 @@ public class ParamsImplementations {
 		}
 
 		FileUpload file = rc.fileUploads().iterator().next();
+		System.out.println("YY");
 
 		// Expected json file
 		if (file != null && file.fileName().toLowerCase().endsWith(".json")) {
