@@ -2,16 +2,7 @@
 "http.port" : 8080,
 "api.username" : "user",
 "api.password" : "passw",
-"db.url" : "jdbc:mysql://localhost:3306/anf_destinatarios?serverTimezone=UTC",
-"db.username" : "root",
-"db.password" : "admin",
 "cors.enable" : true,
-"endpoint.companies.enable" : true,
-"endpoint.email.enable" : true,
 "endpoint.admin.enable" : true,
-"endpoint.backgroundtask.enable" : true,
-"endpoint.swagger.enable" : true,
-"periodic.executions.enable" : true,
-"periodic.daily.enable" : true,
-"service.updatehost" : ""
+"endpoint.swagger.enable" : true
 }
