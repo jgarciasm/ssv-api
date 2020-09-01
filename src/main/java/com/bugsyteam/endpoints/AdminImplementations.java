@@ -67,11 +67,11 @@ public class AdminImplementations {
 		String fileName = "";
 		if (backward_days > 0) {
 			cal.add(Calendar.DATE, -backward_days);
-			fileName = userDir + separator + "logs" + separator + "apidestinatarios-log-"
-					+ dateFormat.format(cal.getTime()) + ".log";
+			fileName = userDir + separator + "logs" + separator + "ssv-api-log-" + dateFormat.format(cal.getTime())
+					+ ".log";
 		} else {
-			fileName = userDir + separator + "logs" + separator + "apidestinatarios-log-"
-					+ dateFormat.format(cal.getTime()) + ".log";
+			fileName = userDir + separator + "logs" + separator + "ssv-api-log-" + dateFormat.format(cal.getTime())
+					+ ".log";
 		}
 
 		Path p = Paths.get(fileName);

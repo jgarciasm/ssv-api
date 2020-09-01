@@ -151,6 +151,7 @@ public class ParamsImplementations {
 			Response.sendSimpleResponse(400, "Bad Request: Invalid format of the received file.", "text/plain", rc);
 		}
 
+		Response.sendSimpleResponse(200, "OK", "text/plain", rc);
 		return Thread.currentThread().getId();
 	}
 

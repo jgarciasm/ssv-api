@@ -166,8 +166,8 @@ public class MainVerticleTest {
 	@Test
 	public void J_testGetNonBlocking(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().get(options.setURI("/nonlocking"), response -> {
-			tc.assertEquals(response.statusCode(), 404);
+		vertx.createHttpClient().get(options.setURI("/nonblocking"), response -> {
+			tc.assertEquals(response.statusCode(), 200);
 			response.bodyHandler(body -> {
 				tc.assertTrue(body.length() > 0);
 				async.complete();
@@ -232,7 +232,7 @@ public class MainVerticleTest {
 				tc.assertTrue(response.body().length() > 0);
 				async.complete();
 			} else {
-				System.out.println("Something went wrong ");
+				System.out.println("Something went wrong " + ar.cause().getMessage());
 				async.complete();
 			}
 		});
