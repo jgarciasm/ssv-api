@@ -140,7 +140,7 @@ public class MainVerticleTest {
 	@Test
 	public void H_testGetBlocking(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().get(options.setURI("/blocking"), response -> {
+		vertx.createHttpClient().get(options.setURI("/test/blocking"), response -> {
 			tc.assertEquals(response.statusCode(), 200);
 			response.bodyHandler(body -> {
 				tc.assertTrue(body.length() > 0);
@@ -153,7 +153,7 @@ public class MainVerticleTest {
 	@Test
 	public void I_testGetBlockingAsync(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().get(options.setURI("/blocking-async"), response -> {
+		vertx.createHttpClient().get(options.setURI("/test/blocking-async"), response -> {
 			tc.assertEquals(response.statusCode(), 200);
 			response.bodyHandler(body -> {
 				tc.assertTrue(body.length() > 0);
@@ -166,7 +166,7 @@ public class MainVerticleTest {
 	@Test
 	public void J_testGetNonBlocking(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().get(options.setURI("/nonblocking"), response -> {
+		vertx.createHttpClient().get(options.setURI("/test/nonblocking"), response -> {
 			tc.assertEquals(response.statusCode(), 200);
 			response.bodyHandler(body -> {
 				tc.assertTrue(body.length() > 0);
@@ -179,7 +179,7 @@ public class MainVerticleTest {
 	@Test
 	public void K_testPostWithQueryParams(TestContext tc) {
 		Async async = tc.async();
-		vertx.createHttpClient().post(options.setURI("/with-query-params?param1=param1"), response -> {
+		vertx.createHttpClient().post(options.setURI("/test/with-query-params?param1=param1"), response -> {
 			tc.assertEquals(response.statusCode(), 200);
 			response.bodyHandler(body -> {
 				tc.assertTrue(body.length() > 0);
@@ -205,7 +205,7 @@ public class MainVerticleTest {
 	public void M_testPutWithJsonBodyParams(TestContext tc) {
 		Async async = tc.async();
 
-		client.put("/with-json-body-params").putHeader("Authorization", "Basic dXNlcjpwYXNzdw==")
+		client.put("/test/with-json-body-params").putHeader("Authorization", "Basic dXNlcjpwYXNzdw==")
 				.sendJsonObject(new JsonObject().put("param1", "param1").put("array-param",
 						new JsonArray().add("array-p1").add("array-p1").add("array-p1")), ar -> {
 							if (ar.succeeded()) {
@@ -225,17 +225,18 @@ public class MainVerticleTest {
 		MultipartForm form = MultipartForm.create().binaryFileUpload("jsonFile", "test.json", "resources/test.json",
 				"application/json");
 
-		client.post("/with-json-multipart-files").basicAuthentication("user", "passw").sendMultipartForm(form, ar -> {
-			if (ar.succeeded()) {
-				HttpResponse<Buffer> response = ar.result();
-				tc.assertEquals(response.statusCode(), 200);
-				tc.assertTrue(response.body().length() > 0);
-				async.complete();
-			} else {
-				System.out.println("Something went wrong " + ar.cause().getMessage());
-				async.complete();
-			}
-		});
+		client.post("/test/with-json-multipart-files").basicAuthentication("user", "passw").sendMultipartForm(form,
+				ar -> {
+					if (ar.succeeded()) {
+						HttpResponse<Buffer> response = ar.result();
+						tc.assertEquals(response.statusCode(), 200);
+						tc.assertTrue(response.body().length() > 0);
+						async.complete();
+					} else {
+						System.out.println("Something went wrong " + ar.cause().getMessage());
+						async.complete();
+					}
+				});
 		System.out.println("N Test Done");
 	}
 

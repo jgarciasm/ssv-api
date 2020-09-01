@@ -104,21 +104,21 @@ public class MainVerticle extends AbstractVerticle {
 
 			}
 
-			router.get("/blocking").handler(selector::getBlocking);
+			router.get("/test/blocking").handler(selector::getBlocking);
 
-			router.get("/blocking-async").handler(selector::getBlockingWithAsyncResponse);
+			router.get("/test/blocking-async").handler(selector::getBlockingWithAsyncResponse);
 
-			router.get("/nonblocking").handler(selector::getNonBlocking);
+			router.get("/test/nonblocking").handler(selector::getNonBlocking);
 
-			router.post("/with-query-params").handler(selector::postWithQueryParams);
+			router.post("/test/with-query-params").handler(selector::postWithQueryParams);
 
-			router.put("/with-json-body-params").handler(selector::postWithJsonBodyParams);
+			router.put("/test/with-json-body-params").handler(selector::postWithJsonBodyParams);
 
 			String userDir = System.getProperty("user.dir");
 			String separator = System.getProperty("file.separator");
-			router.post("/with-json-multipart-files")
+			router.post("/test/with-json-multipart-files")
 					.handler(BodyHandler.create().setUploadsDirectory(userDir + separator + "uploads"));
-			router.post("/with-json-multipart-files").handler(selector::postWithMultipartFiles);
+			router.post("/test/with-json-multipart-files").handler(selector::postWithMultipartFiles);
 
 			PeriodicTaskImplementations.programPeriodicBlockingTask(vertx, 60);
 
