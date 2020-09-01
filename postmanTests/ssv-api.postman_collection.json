@@ -1,0 +1,788 @@
+{
+	"info": {
+		"_postman_id": "c8f87553-fb47-4425-8497-5ac2e16a37bb",
+		"name": "ssv-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/test200",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/test200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"test"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "content-length",
+							"value": "0"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=6c1880256d0157c0167f6dff136e465b; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "/admin/version",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/version",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"version"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/admin/version",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/version",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"version"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "76"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=7b0d30f8552cc7a488803063f0be917e; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Api Version\": \"0.0.1\",\n    \"ANFInfoWeb Version\": \"Unknown version\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/admin/logs",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/logs?backward_days=0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"logs"
+					],
+					"query": [
+						{
+							"key": "backward_days",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/admin/logs",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/logs?backward_days=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"logs"
+							],
+							"query": [
+								{
+									"key": "backward_days",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "content-disposition",
+							"value": "attachment; filename=\"logs.log\""
+						},
+						{
+							"key": "transfer-encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=82c831208c1f0f90f248090acb3a7a43; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": "[INFO]:[com.bugsyteam.verticles.MainVerticle]:[lambda$start$5] -> (44) 31 Aug 2020 16:20:53 :: 'config JSON: {\r\n  \"http.port\" : 8080,\r\n  \"api.username\" : \"user\",\r\n  \"api.password\" : \"passw\",\r\n  \"db.url\" : \"jdbc:mysql://localhost:3306/anf_destinatarios?serverTimezone=UTC\",\r\n  \"db.username\" : \"root\",\r\n  \"db.password\" : \"admin\",\r\n  \"cors.enable\" : true,\r\n  \"endpoint.companies.enable\" : true,\r\n  \"endpoint.email.enable\" : true,\r\n  \"endpoint.admin.enable\" : true,\r\n  \"endpoint.backgroundtask.enable\" : true,\r\n  \"endpoint.swagger.enable\" : true,\r\n  \"periodic.executions.enable\" : true,\r\n  \"periodic.daily.enable\" : true,\r\n  \"service.updatehost\" : \"\"\r\n}'\r\n[INFO]:[com.bugsyteam.verticles.MainVerticle]:[lambda$start$5] -> (55) 31 Aug 2020 16:20:53 :: 'Starting ssv-api on port 8080'\r\n[INFO]:[com.bugsyteam.verticles.MainVerticle]:[lambda$null$4] -> (151) 31 Aug 2020 16:20:54 :: 'Starting ssv-api on port 8080'\r\n[INFO]:[com.bugsyteam.verticles.MainVerticle]:[lambda$start$5] -> (44) 31 Aug 2020 16:24:42 :: 'config JSON: {\r\n  \"http.port\" : 8080,\r\n  \"api.username\" : \"user\",\r\n  \"api.password\" : \"passw\",\r\n  \"db.url\" : \"jdbc:mysql://localhost:3306/anf_destinatarios?serverTimezone=UTC\",\r\n  \"db.username\" : \"root\",\r\n  \"db.password\" : \"admin\",\r\n  \"cors.enable\" : true,\r\n  \"endpoint.companies.enable\" : true,\r\n  \"endpoint.email.enable\" : true,\r\n  \"endpoint.admin.enable\" : true,\r\n  \"endpoint.backgroundtask.enable\" : true,\r\n  \"endpoint.swagger.enable\" : true,\r\n  \"periodic.executions.enable\" : true,\r\n  \"periodic.daily.enable\" : true,\r\n  \"service.updatehost\" : \"\"\r\n}'\r\n[INFO]:[com.bugsyteam.verticles.MainVerticle]:[lambda$start$5] -> (55) 31 Aug 2020 16:24:42 :: 'Starting ssv-api on port 8080'\r\n[INFO]:[com.bugsyteam.verticles.MainVerticle]:[lambda$null$4] -> (151) 31 Aug 2020 16:24:43 :: 'Starting ssv-api on port 8080'\r\n[INFO]:[com.bugsyteam.verticles.MainVerticle]:[lambda$start$5] -> (44) 31 Aug 2020 16:25:25 :: 'config JSON: {\r\n  \"http.port\" : 8080,\r\n  \"api.username\" : \"user\",\r\n  \"api.password\" : \"passw\",\r\n  \"db.url\" : \"jdbc:mysql://localhost:3306/anf_destinatarios?serverTimezone=UTC\",\r\n  \"db.username\" : \"root\",\r\n  \"db.password\" : \"admin\",\r\n  \"cors.enable\" : true,\r\n  \"endpoint.companies.enable\" : true,\r\n  \"endpoint.email.enable\" : true,\r\n  \"endpoint.admin.enable\" : true,\r\n  \"endpoint.backgroundtask.enable\" : true,\r\n  \"endpoint.swagger.enable\" : true,\r\n  \"periodic.executions.enable\" : true,\r\n  \"periodic.daily.enable\" : true,\r\n  \"service.updatehost\" : \"\"\r\n}'\r\n[INFO]:[com.bugsyteam.verticles.MainVerticle]:[lambda$start$5] -> (55) 31 Aug 2020 16:25:25 :: 'Starting ssv-api on port 8080'\r\n[INFO]:[com.bugsyteam.verticles.MainVerticle]:[lambda$null$4] -> (151) 31 Aug 2020 16:25:25 :: 'Starting ssv-api on port 8080'\r\n"
+				}
+			]
+		},
+		{
+			"name": "/admin/logs",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"logs"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/admin/logs",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/logs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"logs"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "50"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=82c831208c1f0f90f248090acb3a7a43; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": "Se borraron correctamente todos los logs antiguos."
+				}
+			]
+		},
+		{
+			"name": "/blocking",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/blocking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blocking"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/blocking",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/blocking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"blocking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "23"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=82c831208c1f0f90f248090acb3a7a43; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"result\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/blocking-async",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/blocking-async",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blocking-async"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/blocking-async",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/blocking-async",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"blocking-async"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "text/plain"
+						},
+						{
+							"key": "content-length",
+							"value": "22"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=82c831208c1f0f90f248090acb3a7a43; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": "Operation in execution"
+				}
+			]
+		},
+		{
+			"name": "/nonblocking",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/nonblocking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"nonblocking"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/nonblocking",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/nonblocking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"nonblocking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "25"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=82c831208c1f0f90f248090acb3a7a43; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Response\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/with-query-params",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/with-query-params?param1=param1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"with-query-params"
+					],
+					"query": [
+						{
+							"key": "param1",
+							"value": "param1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/with-query-params",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/with-query-params?param1=param1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"with-query-params"
+							],
+							"query": [
+								{
+									"key": "param1",
+									"value": "param1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "25"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=82c831208c1f0f90f248090acb3a7a43; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Response\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/with-json-body-params",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"param1\": \"param1\",\n    \"array-param\": [\"array-p1\", \"array-p2\", \"array-p3\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/with-json-body-params",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"with-json-body-params"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/with-json-body-params",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"param1\": \"param1\",\n    \"array-param\": [\"array-p1\", \"array-p2\", \"array-p3\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/with-json-body-params",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"with-json-body-params"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "25"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=82c831208c1f0f90f248090acb3a7a43; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Response\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/with-json-multipart-files",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "passw",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Datos/! ANF/eclipse-workspace/ssv-api/resources/test.json"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/with-json-multipart-files",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"with-json-multipart-files"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/with-json-multipart-files",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": "/C:/Datos/! ANF/eclipse-workspace/ssv-api/resources/test.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/with-json-multipart-files",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"with-json-multipart-files"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "text/plain"
+						},
+						{
+							"key": "content-length",
+							"value": "2"
+						},
+						{
+							"key": "set-cookie",
+							"value": "vertx-web.session=bd44df259c784f4f8d5bb90509543767; Path=/"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				}
+			]
+		}
+	],
+	"protocolProfileBehavior": {}
+}
