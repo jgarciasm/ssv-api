@@ -34,12 +34,8 @@ public class AdminImplementations {
 		try {
 			response.put("Api Version", CompilationDataUtil.getVersion());
 
-			response.put("ANFInfoWeb Version", CompilationDataUtil.getANFInfoWebVersion());
-
 		} catch (Exception e) {
 			response.put("Api Version", "UNKNOWN");
-
-			response.put("ANFInfoWeb Version", "UNKNOWN");
 
 			LOGGER.error("Error en la llamada a /destinatarios/test", e);
 		}
