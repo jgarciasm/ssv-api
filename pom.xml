@@ -135,9 +135,11 @@
 				</executions>
 			</plugin>
 
-		<!-- This plugin allows us to execute system and java programs from the 
-		maven command with "mvn exec:java" (in the same VM) or "mvn exec:exec" 
-		(in a separate process) -->
+		<!-- This plugin provides the exec:java goal that in turns starts the 
+		application through the Vert.x io.vertx.core.Launcher class. This is 
+		actually equivalent to running using the vertx command-line tool that 
+		ships in the Vert.x distribution. We can compile and run in the same 
+		command (mvn package exec:java)-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
