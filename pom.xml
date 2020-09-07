@@ -12,7 +12,7 @@
 	<properties>
 		<vertx.version>3.9.2</vertx.version>
 		<main.verticle>com.bugsyteam.verticles.MainVerticle</main.verticle>
-		<output.dir>../ssv-api</output.dir>
+		<output.dir>../ssv-api-export</output.dir>
 		<lib.dir.name>lib</lib.dir.name>
 		<jar.name>ssv-api</jar.name>
 		<skipTests>false</skipTests>
@@ -36,12 +36,6 @@
 			<artifactId>vertx-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-unit</artifactId>
 			<scope>test</scope>
@@ -63,50 +57,32 @@
 			<artifactId>vertx-auth-common</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>apache-log4j-extras</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-model -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-model</artifactId>
 			<version>3.6.3</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.codehaus.plexus/plexus-utils -->
 		<dependency>
 			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-utils</artifactId>
 			<version>3.3.0</version>
-
 		</dependency>
-
-		<!-- <dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.9</version>
-		</dependency> -->
-
 		<dependency>
 			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<version>2.4.0</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency> <groupId>org.assertj</groupId> <artifactId>assertj-core</artifactId> 
-			<version>2.0.0</version> <scope>test</scope> </dependency> -->
-
-		<!-- <dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-auth-oauth2</artifactId>
-			<version>3.9.1</version>
-		</dependency> -->
-
-		<!-- <dependency>
-			<groupId>com.anf.infoweb</groupId>
-			<artifactId>ANFInfoWeb</artifactId>
-			<version>0.8.0</version>
-		</dependency> -->
 	</dependencies>
 
 	<build>
@@ -124,11 +100,9 @@
 		</pluginManagement>
 
 		<plugins>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
-				<version>3.2.0</version> <configuration> <show>private</show> <nohelp>false</nohelp> 
-				</configuration> <executions> <execution> <id>attach-javadocs</id> <goals> 
-				<goal>jar</goal> </goals> </execution> </executions> </plugin> -->
-
+		<!-- This plugin generates a fat jar (a standalone executable jar 
+		file containing all the dependencies required to run the application) 
+		in target directory -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -161,6 +135,9 @@
 				</executions>
 			</plugin>
 
+		<!-- This plugin allows us to execute system and java programs from the 
+		maven command with "mvn exec:java" (in the same VM) or "mvn exec:exec" 
+		(in a separate process) -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -174,14 +151,13 @@
 				</configuration>
 			</plugin>
 
-
+		<!-- This plugin generates a simple jar that needs a lib folder -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.4</version>
 				<executions>
 					<execution>
-						<!-- <id>jar-creation</id> Este estaba OK generando el fatjar -->
 						<id>default-jar</id>
 						<goals>
 							<goal>jar</goal>
@@ -198,26 +174,10 @@
 							</archive>
 						</configuration>
 					</execution>
-					<execution>
-						<!-- <id>jar-creation</id> Este estaba OK generando el fatjar -->
-						<id>jar-without-version-creation</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<finalName>${jar.name}</finalName>
-							<archive>
-								<manifest>
-									<addClasspath>true</addClasspath>
-									<classpathPrefix>${lib.dir.name}/</classpathPrefix>
-									<mainClass>com.bugsyteam.main.VertxApplication</mainClass>
-								</manifest>
-							</archive>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
+			
+		<!-- This plugin generate a folder with all the dependencies -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -238,6 +198,11 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+		<!-- This plugin provides the ability to run ant tasks from within 
+		maven. In this case we use it to generate a new folder with a simple 
+		jar, the resources folder and conf folder. This is useful when we want to 
+		export the project directly to deploy directory. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -261,23 +226,15 @@
 						<phase>install</phase>
 						<configuration>
 							<target>
-								<echo message="ejecutando tareas Ant" />
+								<echo message="Execting Ant Tasks" />
 								<copy
 									file="${project.build.directory}/${jar.name}-${project.version}.jar"
 									todir="${output.dir}" />
-								<copy file="${project.build.directory}/${jar.name}.jar"
-									todir="${output.dir}" />
-								<copy file="conf/config.json"
-									tofile="${output.dir}/config.json.example" />
 								<copy todir="${output.dir}/resources">
 									<fileset dir="resources" includes="**" />
 								</copy>
 								<copy todir="${output.dir}/conf">
-									<fileset dir="conf">
-										<exclude name="config.json" />
-										<exclude name="config_amazon.json" />
-										<exclude name="config_jazztell.json" />
-									</fileset>
+									<fileset dir="conf" includes="**" />
 								</copy>
 							</target>
 						</configuration>
