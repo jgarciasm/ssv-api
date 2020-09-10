@@ -30,25 +30,52 @@ Template REST API project ready to deploy. REST API based in vert.x framework wi
 
 # Documentation
 
-## _Starting_ 🚀
-
-Clone the project with:
-
-```
-git clone https://github.com/jgarciasm/ssv-api.git ssv-api
-cd ssv-api
-rm -rf .git
-git init
-```
-
-See ** Deployment ** to know how to deploy the project.
-
-
-## _Pre-requisitos_ 📋
+## _Prerequisites_ 📋
 
 * Apache Maven
 * JDK 8+
 * Postman (optional)
+
+## _Getting started_ 🚀
+
+Since you will likely want to use (Git) version control as well, the
+fastest route is to clone the repository, delete its .git/ folder and then create a new Git repository:
+
+```
+git clone https://github.com/jgarciasm/ssv-api.git PROJECT_NAME
+cd PROJECT_NAME
+rm -rf .git
+git init
+```
+_Replace PROJECT_NAME with the name of your project._
+
+Open the pom.xml file and customize the **groupId**, **artifactId**, **version**, **output.dir**, and **jar.name**. You can also change the **main.verticle** property to use your own package name and verticle class.
+
+
+See ** Deployment ** to know how to deploy the project.
+
+## _Structure of the project_ 🏬
+
+The project contains:
+
+- a pom.xml file
+
+- a main verticle file (src/main/java/com.bugsyteam.verticles/MainVerticle.java)
+
+- a traditional main class (src/main/java/com.bugsyteam.main/VertxApplication.java)
+
+- unit test cases (src/main/test/com.bugsyteam.verticles/MainVerticleTest.java)
+
+- collection of utility classes (src/main/java/com.bugsyteam.utils)
+
+- collection of endpoint call handlers (src/main/java/com.bugsyteam.endpoints)
+
+- a Swagger specification to document the API (postmanTests/ssv-api.postman_collection.json)
+
+- a Postman collection to test the API (src/main/resources/webroot/node_modules/swagger-ui-dist/ssv_api_specification.yml)
+
+_All the classes and methods are well documented for study purposes._
+
 
 ## _Compile_ 📦
 
@@ -61,9 +88,9 @@ mvn clean package install
 ```
 - package - Compile to **/target** directory
 - clean - clears all content from **/target** before compiling
-- install - generate the deployment directory **../ ssv-api-export**
+- install - generate the deployment directory **../PROJECT_NAME-export**
 
-## _Configuration and Deployment_ 🔧
+## _Configuration and Deployment_ ⚙️
 
 The file **conf/conf.json** must be modified with the desired parameters.
 
@@ -93,13 +120,13 @@ The file **conf/conf.json** must be modified with the desired parameters.
 ### Variant 1 (Development environment): 
 Run it as an Eclipse project. For this we run the Main com.bugsyteam.main.VertxApplication.java as a Java Application. It is not recommended to debug the project since due to the asynchronous nature of Vert.x and certain restrictions of this framework it will give execution errors.
 
-### Variante 2 (Entorno de desarrollo): 
+### Variant 2 (Development environment): 
 Run it with:
 
 ```
 mvn package exec:java
 ```
-_This command compiles the project, generates a fat-jar in **/target** directory, runs the tests and executes the service.
+This command compiles the project, generates a fat-jar in **/target** directory, runs the tests and executes the service.
 
 ### Variant 3: 
 This should be the variant used to deploy the service on a server in test or production environment. First compile with:
@@ -107,21 +134,23 @@ This should be the variant used to deploy the service on a server in test or pro
 ```
 mvn clean package install
 ```
-This will create a directory **ssv-api-export** at the same height as the project directory. Inside this directory there is a file **ssv-api-version.jar** that is the one that we will display, along with other directories and files necessary for the execution. Then navigate to the new directory. 
+This will create a directory **PROJECT_NAME-export** at the same height as the project directory. Inside this directory there is a file **PROJECT_NAME-VERSION.jar** that is the one that we will display, along with other directories and files necessary for the execution. Then navigate to the new directory. 
+
+_VERSION will be replaced with the version property of your pom.xml._
 
 ```
-cd ../ ssv-api-export
+cd ../PROJECT_NAME-export
 ```
 
 Open the **conf/config.json** file and edit it with the necessary configurations (if not previously done). Copy the directory to the final location and deploy with:
 
 ```
-java -jar ssv-api-version.jar
+java -jar PROJECT_NAME-VERSION.jar
 ```
 
 Once running, the service can be tested by opening http://localhost:8080/test in the browser. It should respond **HTTP 200**
 
-## _Testing_ ⚙️
+## _Testing_ 🔎
 
 In the directory of the project there is a "postmanTests" folder that has a Postman collection that has a battery of tests for the API endpoints. With this project, from Postman, code examples can be self-generated to consume the different services for different languages and technologies.
 
