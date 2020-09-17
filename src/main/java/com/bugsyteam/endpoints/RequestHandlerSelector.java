@@ -60,7 +60,7 @@ public class RequestHandlerSelector {
 	}
 
 	public void postWithJsonBodyParams(RoutingContext rc) {
-		Function<RoutingContext, Long> func = e -> ParamsImplementations.postWithJsonBodyParams(e);
+		Function<RoutingContext, Long> func = e -> ParamsImplementations.putWithJsonBodyParams(e);
 		HttpServerUtils.authenticatedFunction(authProvider, rc, func);
 	}
 

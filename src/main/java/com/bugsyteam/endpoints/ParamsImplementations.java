@@ -49,14 +49,14 @@ public class ParamsImplementations {
 	}
 
 	/**
-	 * Handles POST /with-json-body-params endpoint calls. This is intended to
-	 * demonstrate how to obtain parameters from a json received in the body of POST
-	 * request.
+	 * Handles PUT /with-json-body-params endpoint calls. This is intended to
+	 * demonstrate how to obtain parameters from a json received in the body of
+	 * POST/PUT/etc request.
 	 *
 	 * @param routingContext the routing context of the HTTP call.
 	 * @return the id of the thread in execution.
 	 */
-	public static long postWithJsonBodyParams(RoutingContext routingContext) {
+	public static long putWithJsonBodyParams(RoutingContext routingContext) {
 
 		routingContext.request().bodyHandler(b -> {
 

@@ -27,7 +27,10 @@ public class AdminImplementations {
 	 * Handles GET /admin/version endpoint calls.
 	 *
 	 * @param routingContext the routing context of the HTTP call.
-	 * @return the id of the thread in execution.
+	 * @return a JSON with the API version.
+	 * 
+	 *         { "Api Version": "0.0.1" }
+	 *
 	 */
 	public static long version(RoutingContext routingContext) {
 		JsonObject response = new JsonObject();
@@ -49,7 +52,7 @@ public class AdminImplementations {
 	 * Handles GET /admin/logs endpoint calls.
 	 *
 	 * @param routingContext the routing context of the HTTP call.
-	 * @return the id of the thread in execution.
+	 * @return the specified logs file.
 	 */
 	public static long getLogs(RoutingContext rc) {
 
