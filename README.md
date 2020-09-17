@@ -38,8 +38,9 @@ Template REST API project ready to deploy. REST API based in vert.x framework wi
 
 ## _Getting started_ 🚀
 
-Since you will likely want to use (Git) version control as well, the
-fastest route is to clone the repository, delete its .git/ folder and then create a new Git repository:
+Since you will likely want to use (Git) version control as well, the fastest route is create a new repository from ssv-api template. This will create a new Github repository using the same structure that ssv-api but with the personalized information that you has to provide. To do this you has to press **Use this template** green button placed at the right top corner of **<> Code** section of this repository.
+
+Or do it by hand by clone the repository, delete its .git/ folder and then create a new Git repository:
 
 ```
 git clone https://github.com/jgarciasm/ssv-api.git PROJECT_NAME
